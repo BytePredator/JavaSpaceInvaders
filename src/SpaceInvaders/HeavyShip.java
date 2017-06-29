@@ -12,8 +12,8 @@ package SpaceInvaders;
 public class HeavyShip extends Ship{
     /**
      * Creates a new HeavyShip
-     * @param x position of the ship on the X axe
-     * @param y position of the ship on the Y axe
+     * @param x ship's position on the X axe
+     * @param y ship's position on the Y axe
      */
     public HeavyShip(int x, int y){
         super(x,y,3,30);

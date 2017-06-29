@@ -20,8 +20,8 @@ public class Projectile {
     
     /**
      * Creates a new projectile
-     * @param x X axe's position of the projectile
-     * @param y Y axe's position of the projectile
+     * @param x projectile's position on the X axe
+     * @param y projectile's position on the Y axe
      * @param direction direction of the projectile: 1 to top, -1 to bottom
      * @param damage damage to apply to the target
      */

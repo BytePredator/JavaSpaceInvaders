@@ -12,8 +12,8 @@ package SpaceInvaders;
 public class LightShip extends Ship{
     /**
      * Creates a new LightShip
-     * @param x position of the ship on the X axe
-     * @param y position of the ship on the Y axe
+     * @param x ship's position on the X axe
+     * @param y ship's position on the Y axe
      */
     public LightShip(int x, int y){
         super(x,y,1,10);

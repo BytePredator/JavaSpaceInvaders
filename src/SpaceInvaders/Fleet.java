@@ -73,7 +73,7 @@ public class Fleet {
     
     
     /**
-     * Method to get X axe's position of the fleet
+     * Method to get fleet's position on the X axe
      * @return position on X axe
      */
     public int GetX(){
@@ -82,7 +82,7 @@ public class Fleet {
     
     
     /**
-     * Method to get Y axe's position of the fleet
+     * Method to get fleet's position on the Y axe
      * @return position on Y axe
      */
     public int GetY(){
