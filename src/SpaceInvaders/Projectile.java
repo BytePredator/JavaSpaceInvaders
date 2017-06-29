@@ -20,8 +20,8 @@ public class Projectile {
     
     /**
      * Costruttore della classe prottile
-     * @param x posizione sull'asse x della nave
-     * @param y posizione sull'asse y della nave
+     * @param x posizione sull'asse x del proiettile
+     * @param y posizione sull'asse y del proiettile
      * @param direction direzione del priettile: 1 per l'alto, -1 per il basso
      * @param damage danno da infliggere al bersaglio
      */
@@ -78,8 +78,8 @@ public class Projectile {
     
     
     /**
-     * Metodo astratto per clonare una nave
-     * @return nuova istanza della nave clonata
+     * Metodo astratto per clonare un priettile
+     * @return nuova istanza del proiettile clonata
      */
     public Projectile Clone(){
         return new Projectile(this.x, this.y, this.direction, this.damage);
