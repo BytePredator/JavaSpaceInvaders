@@ -6,16 +6,27 @@
 package SpaceInvaders;
 
 /**
- *
+ * Classe della nave leggera
  * @author byte-predator
+ * @see Ship
  */
 public class LightShip extends Ship{
+    /**
+     * Costruttore della classe nave leggera
+     * @param x posizione sull'asse x della nave
+     * @param y posizione sull'asse y della nave
+     */
     public LightShip(int x, int y){
         super(x,y,1,10);
         this.image[0]="img/light1.png";
         this.image[1]="img/light2.png";
     }
     
+    
+    /**
+     * Metodo per clonare una nave leggera
+     * @return nuova istanza della nave clonata
+     */
     public Ship Clone(){
         LightShip c = new LightShip(this.GetX(), this.GetY());
         c.life=this.life;

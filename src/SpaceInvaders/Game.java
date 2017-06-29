@@ -15,7 +15,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Classe del gioco.<br>
+ * la classe gioco rappresenta il controller del programa, prepara il campo di battaglia,
+ * gestisce la difficoltà della partita, salva il punteggio corrente e il punteggio massimo,
+ * acquisisce i comandi del giocatore, modifica lo stato delle flotte e restituisce
+ * all'interfaccia le informazioni da mostrare al giocatore
  * @author byte-predator
  */
 public class Game {
@@ -32,6 +36,10 @@ public class Game {
     private Random rand;
     private int[][] level_data;
     
+    
+    /**
+     * Costruttore della classe gioco
+     */
     public Game(){
         this.InvadersFleet = new Fleet(2,0,0,true);
         this.EarthFleet = new Fleet(0,0,0,false);
@@ -52,6 +60,11 @@ public class Game {
         }
     }
     
+    
+    /**
+     * Metodo da richiamare per aggiornare lo stato della partita
+     * @param delta tempo in millisecondi trascorso dalla chiamata precedente
+     */
     public void Update(float delta){
         int frame = (int)(delta+this.time)/100;
         if(this.state==1){
@@ -74,7 +87,7 @@ public class Game {
                 this.InvadersFleet.Update();
                 
                 this.EarthFleet.Update();
-                if(this.InvadersFleet.Altitude()+Ship.ShipHeight()>=this.EarthFleet.GetY()){
+                if(this.InvadersFleet.Distance()+Ship.ShipHeight()>=this.EarthFleet.GetY()){
                     this.UpdateHiScore();
                     this.state = 2;
                 }
@@ -127,14 +140,31 @@ public class Game {
         this.time = (long) (delta+this.time-frame*100);
     }
     
+    
+    /**
+     * Metodo per spostare la flotta di difesa
+     * @param d -1 per spostare la flotta di difesa a sinistra, 1 per spostare
+     * la flotta a destra, 0 per farla rimanere ferma
+     */
     public void SetDirection(int d){
         this.direction = d;
     }
     
+    /**
+     * Metodo per impostare lo stato della partita
+     * @param s 0 per una nuova partita, 1 per giocare, 2 per il "game over", 
+     * dal 3 al 15 per la pausa temporanea
+     */
     public void SetState(int s){
+        if(s<0||s>15)
+            s=0;
         this.state = s;
     }
     
+    
+    /**
+     * Metodo per sparare un proiettile contro gli invasori
+     */
     public void Fire(){
         AntiAir aa = (AntiAir) this.EarthFleet.GetShips().get(0);
         for(Projectile p: this.projectiles)
@@ -149,32 +179,68 @@ public class Game {
         this.projectiles.add(p);
     }
     
+    /**
+     * Metodo per ottenere lo stato del gioco
+     * @return 0 per una nuova partita, 1 per giocare, 2 per il "game over", 
+     * dal 3 al 15 per la pausa temporanea
+     */
     public int GetState(){
         return this.state;
     }
     
+    /**
+     * Metodo per ottenere il punteggio della partita attuale
+     * @return punteggio della partita
+     */
     public int GetScore(){
         return this.score;
     }
     
+    
+    /**
+     * Metodo per ottenere il punteggio più alto raggiunto in tutte le patite
+     * @return punteggio massimo ottenuto
+     */
     public int GetHiScore(){
         return this.hiscore;
     }
     
+    
+    /**
+     * Metodo per ottenere il livello attuale
+     * @return livello attuale
+     */
     public int GetLevel(){
         return this.level;
     }
     
+    
+    /**
+     * Metodo per ottenere il numero di vite rimanenti al giocatore
+     * @return numero di vite rimanenti
+     */
     public int GetLife(){
         return this.life;
     }
     
+    
+    /**
+     * Metodo per ottenere una copia delle navi dalle flotte
+     * @return ArrayList di navi
+     * @see Fleet
+     */
     public ArrayList<Ship> GetShips(){
         ArrayList<Ship> r = this.InvadersFleet.GetShips();
         r.add(this.EarthFleet.GetShips().get(0));
         return r;
     }
     
+    
+    /**
+     * Metodo per ottenere una copia dei proiettili della partita
+     * @return ArrayList di proiettili
+     * @see Projectile
+     */
     public ArrayList<Projectile> GetProjectiles(){
         ArrayList<Projectile> r = new ArrayList<Projectile>();
         for(Projectile p : this.projectiles)
@@ -183,14 +249,27 @@ public class Game {
     }
     
     
+    /**
+     * Metodo di classe per ottenere la larghezza del campo di battaglia
+     * @return larghezza del campo in pixel
+     */
     public static int FieldWidth(){
         return (int)(20*Ship.ShipWidth());
     }
     
+    
+    /**
+     * Metodo di classe per ottenere l' altezza del campo di battaglia
+     * @return altezza del campo in pixel
+     */
     public static int FieldHeight(){
         return (int)(18*Ship.ShipHeight())+10;
     }
     
+    
+    /**
+     * Metodo privato per resettare il campo di battaglia
+     */
     private void ResetField(){
         this.InvadersFleet = new Fleet(22,22,11,true);
         this.EarthFleet = new Fleet(0,0,0,false);
@@ -198,6 +277,10 @@ public class Game {
         this.direction=0;
     }
     
+    
+    /**
+     * Metodo privato per iniziare una nuova partita
+     */
     private void NewGame(){
         this.life=3;
         this.time=0;
@@ -207,6 +290,11 @@ public class Game {
         this.ResetField();
     }
     
+    
+    /**
+     * Metodo privato per ottenere da infliggere alle navi nemiche al livello corrente
+     * @return valore del danno
+     */
     private int GetLevelDamage(){
         if(this.level>6)
             return this.level_data[6][0];
@@ -214,6 +302,13 @@ public class Game {
             return this.level_data[this.level][0];
     }
     
+    
+    /**
+     * Metodo privato per ottenere la probabilità che le navi degli invasori 
+     * sparino un proiettile
+     * @return probabilità in percentuale: 0 nessun priettile sparato, 100 tutte
+     * le navi degli invasori sparano
+     */
     private int GetLevelFireProb(){
         if(this.level>6)
             return this.level_data[6][1];
@@ -221,6 +316,11 @@ public class Game {
             return this.level_data[this.level][1];
     }
     
+    
+    /**
+     * Metodo privato per aggiornare il punteggio più alto e in caso salvarlo su
+     * file
+     */
     private void UpdateHiScore(){
         if(this.score>this.hiscore){
             this.hiscore=this.score;
