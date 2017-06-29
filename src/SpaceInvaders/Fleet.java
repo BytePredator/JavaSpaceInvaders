@@ -7,7 +7,11 @@ package SpaceInvaders;
 import java.util.ArrayList;
 
 /**
- *
+ * Fleet Class.<br>
+ * A fleet is made up of ships and have a position on the combat field.<br>
+ * An invader's fleet is made up of different typs of ships (light, mid and heavy),
+ * his goal is to land on the planet to invade.<br>
+ * A defence fleet, instead, is made up of only one AntiAir unit
  * @author byte-predator
  */
 public class Fleet {
@@ -17,7 +21,16 @@ public class Fleet {
     private int direction;
     private boolean invaders;
     private int frame;
-    
+    /**
+     * Creates a new Fleet.<br>
+     * If it's an invasion fleet, it generates the requested numbers of ships
+     * based on the first three parameters, else if it's a defence fleet, it
+     * discards the first three parameters and generates only one AntiAit unit.  
+     * @param LightShips positive integer number of light ships
+     * @param MidShips positive integer number of mid ships
+     * @param HeavyShips positive integer number of heavy ships
+     * @param invaders true if it's an invasion fleet, false if it's a defence one
+     */
     public Fleet(int LightShips, int MidShips, int HeavyShips, boolean invaders){
         this.ships = new ArrayList<Ship>();
         this.x = 0;
@@ -58,14 +71,29 @@ public class Fleet {
         }
     }
     
+    
+    /**
+     * Method to get X axe's position of the fleet
+     * @return position on X axe
+     */
     public int GetX(){
         return this.x;
     }
     
+    
+    /**
+     * Method to get Y axe's position of the fleet
+     * @return position on Y axe
+     */
     public int GetY(){
         return this.y;
     }
     
+    
+    /**
+     * Sets the fleet's position on the X axe
+     * @param x position on X axe
+     */
     public void SetX(int x){
         int minX=Game.FieldWidth();
         int maxX=0;
@@ -87,10 +115,27 @@ public class Fleet {
             this.x=x;
     }
     
+    
+    /**
+     * Sets the fleet's position on the Y axe
+     * @param y position on Y axe
+     */
     public void SetY(int y){
         this.y=y;
     }
     
+    
+    /**
+     * Method that checks if in a certain position there's a ship, if there's a
+     * collision it applies to the ship the specified damage.<br>
+     * If the ship gets destroyed returns his score
+     * @param x collision's position on the X axe
+     * @param y collision's position on the Y axe
+     * @param damage damage to apply
+     * @return 0 if there wasn't a collision, -1 if a collision occurred but
+     * the ship didn't got destroyed, the positive integer ship's score if a
+     * collision occurred and the ship got destroyed
+     */
     public int CollisionCheck(int x, int y, int damage){
         for(Ship s: this.ships){
             if(s.GetLife()>0||s.GetExplosionCounter()>0)
@@ -106,7 +151,14 @@ public class Fleet {
         return 0;
     }
     
-    public int Altitude(){
+    
+    /**
+     * Method to get the number of pixels, from the top side of the combat field
+     * to the ship at the lower quota
+     * @return distance in pixels from the top side of the field to the ship at
+     * the lower quota
+     */
+    public int Distance(){
         int y=0;
         for(Ship s : this.ships){
             if(s.GetLife()<=0||s.GetExplosionCounter()<=0)
@@ -118,6 +170,10 @@ public class Fleet {
         return y+this.y;
     }
     
+    
+    /**
+     * Method to call each frame to update the fleet's state
+     */
     public void Update(){
         if(this.invaders){
             ArrayList<Ship> r = this.GetShips();
@@ -144,6 +200,12 @@ public class Fleet {
         }
     }
     
+    
+    /**
+     * Methos to get a copy of the ships in the fleet
+     * @return ArayList of ship
+     * @see Ship
+     */
     public ArrayList<Ship> GetShips(){
         ArrayList<Ship> r = new ArrayList<Ship>();
             for( Ship s: this.ships){

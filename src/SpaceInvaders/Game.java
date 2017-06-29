@@ -15,7 +15,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Game Class.<br>
+ * The game class represents the controller of the program, it sets up the filed,
+ * manages the game difficulty, it saves the current score and the hi-score,
+ * it acquires user's commands, edits fleet's states and gives to the interface 
+ * informations to be showed to the player
  * @author byte-predator
  */
 public class Game {
@@ -32,6 +36,10 @@ public class Game {
     private Random rand;
     private int[][] level_data;
     
+    
+    /**
+     * Creates a new Game
+     */
     public Game(){
         this.InvadersFleet = new Fleet(2,0,0,true);
         this.EarthFleet = new Fleet(0,0,0,false);
@@ -52,6 +60,11 @@ public class Game {
         }
     }
     
+    
+    /**
+     * method to call in order to update the state of the game
+     * @param delta time in milliseconds from the last call
+     */
     public void Update(float delta){
         int frame = (int)(delta+this.time)/100;
         if(this.state==1){
@@ -74,7 +87,7 @@ public class Game {
                 this.InvadersFleet.Update();
                 
                 this.EarthFleet.Update();
-                if(this.InvadersFleet.Altitude()+Ship.ShipHeight()>=this.EarthFleet.GetY()){
+                if(this.InvadersFleet.Distance()+Ship.ShipHeight()>=this.EarthFleet.GetY()){
                     this.UpdateHiScore();
                     this.state = 2;
                 }
@@ -127,14 +140,30 @@ public class Game {
         this.time = (long) (delta+this.time-frame*100);
     }
     
+    
+    /**
+     * Method to move the defence fleet
+     * @param d -1 to move left the fleet, 1 to move right the fleet, 0 to hold
+     * the position
+     */
     public void SetDirection(int d){
         this.direction = d;
     }
     
+    
+    /**
+     * Method to set the state of the game
+     * @param s 0 for a new game, 1 for play, 2 for game-over, from 3 to 15 for
+     * a temporary pause
+     */
     public void SetState(int s){
         this.state = s;
     }
     
+    
+    /**
+     * Method for shoot a projectile to the invaders
+     */
     public void Fire(){
         AntiAir aa = (AntiAir) this.EarthFleet.GetShips().get(0);
         for(Projectile p: this.projectiles)
@@ -149,32 +178,69 @@ public class Game {
         this.projectiles.add(p);
     }
     
+    /**
+     * Method to get the game state
+     * @return 0 for a new game, 1 for play, 2 for game-over, from 3 to 15 for a
+     * temporary pause
+     */
     public int GetState(){
         return this.state;
     }
     
+    
+    /**
+     * Method to get the current score
+     * @return current score
+     */
     public int GetScore(){
         return this.score;
     }
     
+    
+    /**
+     * metoh to get the highest score
+     * @return higest score
+     */
     public int GetHiScore(){
         return this.hiscore;
     }
     
+    
+    /**
+     * Mthod to get the current level
+     * @return current level
+     */
     public int GetLevel(){
         return this.level;
     }
     
+    
+    /**
+     * Methos to get the number of lives left to the player
+     * @return number of lives left
+     */
     public int GetLife(){
         return this.life;
     }
     
+    
+    /**
+     * Methos to get a copy of the flet's ships
+     * @return ArrayList of ship
+     * @see Fleet
+     */
     public ArrayList<Ship> GetShips(){
         ArrayList<Ship> r = this.InvadersFleet.GetShips();
         r.add(this.EarthFleet.GetShips().get(0));
         return r;
     }
     
+    
+    /**
+     * Methos to get a copy of the projectiles in the game
+     * @return ArayList of projectile
+     * @see Projectile
+     */
     public ArrayList<Projectile> GetProjectiles(){
         ArrayList<Projectile> r = new ArrayList<Projectile>();
         for(Projectile p : this.projectiles)
@@ -183,14 +249,27 @@ public class Game {
     }
     
     
+    /**
+     * Class method to get the field width
+     * @return field width in pixels
+     */
     public static int FieldWidth(){
         return (int)(20*Ship.ShipWidth());
     }
     
+    
+    /**
+     * Class method to get the field height
+     * @return field height in pixels
+     */
     public static int FieldHeight(){
         return (int)(18*Ship.ShipHeight())+10;
     }
     
+    
+    /**
+     * Private method to reset the field
+     */
     private void ResetField(){
         this.InvadersFleet = new Fleet(22,22,11,true);
         this.EarthFleet = new Fleet(0,0,0,false);
@@ -198,6 +277,10 @@ public class Game {
         this.direction=0;
     }
     
+    
+    /**
+     * Private method to start a new game
+     */
     private void NewGame(){
         this.life=3;
         this.time=0;
@@ -207,6 +290,11 @@ public class Game {
         this.ResetField();
     }
     
+    
+    /**
+     * Private method to get the damage to apply to enemy ships at the current level
+     * @return damage ammount
+     */
     private int GetLevelDamage(){
         if(this.level>6)
             return this.level_data[6][0];
@@ -214,6 +302,11 @@ public class Game {
             return this.level_data[this.level][0];
     }
     
+    
+    /**
+     * Private method to get the probability that the invader's ships have to fire
+     * @return probability in percentage: o none fire, 100 all invader's ships fire
+     */
     private int GetLevelFireProb(){
         if(this.level>6)
             return this.level_data[6][1];
@@ -221,6 +314,10 @@ public class Game {
             return this.level_data[this.level][1];
     }
     
+    
+    /**
+     * Private method to update the hi-score and in case save it on file
+     */
     private void UpdateHiScore(){
         if(this.score>this.hiscore){
             this.hiscore=this.score;

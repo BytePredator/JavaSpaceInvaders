@@ -6,16 +6,26 @@
 package SpaceInvaders;
 
 /**
- *
+ *  MidShip Class
  * @author byte-predator
  */
 public class MidShip extends Ship{
+    /**
+     * Creates a new MidShip
+     * @param x position of the ship on the X axe
+     * @param y position of the ship on the Y axe
+     */
     public MidShip(int x, int y){
         super(x,y,2,20);
         this.image[0]="img/mid1.png";
         this.image[1]="img/mid2.png";
     }
     
+    
+    /**
+     * Creates a clone of MidShip
+     * @return a cloned instance of the MidShip 
+     */
     public Ship Clone(){
         MidShip c = new MidShip(this.GetX(), this.GetY());
         c.life=this.life;

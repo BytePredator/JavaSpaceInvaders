@@ -6,16 +6,26 @@
 package SpaceInvaders;
 
 /**
- *
+ * HeavyShip Class
  * @author byte-predator
  */
 public class HeavyShip extends Ship{
+    /**
+     * Creates a new HeavyShip
+     * @param x position of the ship on the X axe
+     * @param y position of the ship on the Y axe
+     */
     public HeavyShip(int x, int y){
         super(x,y,3,30);
         this.image[0]="img/heavy1.png";
         this.image[1]="img/heavy2.png";
     }
     
+    
+    /**
+     * Creates a clone of HeavyShip
+     * @return a cloned instance of the HeavyShip 
+     */
     public Ship Clone(){
         HeavyShip c = new HeavyShip(this.GetX(), this.GetY());
         c.life=this.life;

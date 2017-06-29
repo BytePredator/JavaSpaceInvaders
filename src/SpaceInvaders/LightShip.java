@@ -6,16 +6,26 @@
 package SpaceInvaders;
 
 /**
- *
+ * LightShip Class
  * @author byte-predator
  */
 public class LightShip extends Ship{
+    /**
+     * Creates a new LightShip
+     * @param x position of the ship on the X axe
+     * @param y position of the ship on the Y axe
+     */
     public LightShip(int x, int y){
         super(x,y,1,10);
         this.image[0]="img/light1.png";
         this.image[1]="img/light2.png";
     }
     
+    
+    /**
+     * Creates a clone of LightShip
+     * @return a cloned instance of the LightShip 
+     */
     public Ship Clone(){
         LightShip c = new LightShip(this.GetX(), this.GetY());
         c.life=this.life;

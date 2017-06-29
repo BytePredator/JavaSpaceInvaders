@@ -5,7 +5,8 @@
  */
 package SpaceInvaders;
 /**
- *
+ * Ship Class.<br>
+ * 
  * @author byte-predator
  */
 public abstract class Ship {
