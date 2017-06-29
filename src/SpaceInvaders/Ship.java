@@ -97,7 +97,7 @@ public abstract class Ship {
     
     
     /**
-     * Metodo per ottenere il percorso dell'imagine da usare per graficare la nave
+     * Metodo per ottenere il percorso dell'immagine da usare per graficare la nave
      * @return percorso dell'immagine
      */
     public String GetImage(){
