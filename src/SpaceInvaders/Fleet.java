@@ -139,7 +139,7 @@ public class Fleet {
     
     /**
      * Metodo che controlla se in una data posizione è presente una nave, in caso
-     * avvenga la collisione applica alla nave il danno specificato.<br>
+     * avvenga la collisione, applica alla nave il danno specificato.<br>
      * Se la nave viene distrutta ne ritorna il punteggio.
      * @param x posizione sull'asse x della collisione
      * @param y posizione sull'asse y della collisione
